@@ -37,11 +37,13 @@ public class MainActivity extends Activity {
 
         private Bar bar;
         private Ball ball;
+        private BoxBug boxBug;
 
         public GraphicsView(Context context) {
             super(context);
             ball = new Ball(Color.GREEN);
             bar = new Bar(Color.RED);
+            boxBug = new BoxBug(Color.RED);
             this.setFocusableInTouchMode(true);
         }
 
@@ -50,17 +52,36 @@ public class MainActivity extends Activity {
 
             ball.set(canvas);
             bar.set(canvas);
+            boxBug.set(canvas);
 
             ball.update();
             bar.update();
+            boxBug.update();
 
             if((ball.getBallX()+ball.getBallRadius() >= bar.getxMin()) && (bar.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= bar.getyMin()+ bar.getHeight())){
+
                 ball.setBallSpeedX(-ball.getBallSpeedX());
                 if(ball.getBallSpeedY()<0){
                     ball.setBallSpeedY(ball.getBallSpeedY() -1 );
+                    bar.changColor();
                 }else {
                     ball.setBallSpeedY(ball.getBallSpeedY() + 1);
+                    bar.changColor();
+
                 }
+            }else if(ball.getBallX()-ball.getBallRadius() >= bar.getxMin()+bar.width){
+
+                if ((ball.getBallX()-ball.getBallRadius() <= bar.getxMin()+bar.width) && (bar.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= bar.getyMin()+ bar.getHeight())){
+                    ball.setBallSpeedX(-ball.getBallSpeedX());
+                    if(ball.getBallSpeedY()<0){
+                        ball.setBallSpeedY(ball.getBallSpeedY() -1 );
+                        bar.changColor();
+                    }else {
+                        ball.setBallSpeedY(ball.getBallSpeedY() + 1);
+                        bar.changColor();
+                    }
+                }
+
             }
 
             invalidate();

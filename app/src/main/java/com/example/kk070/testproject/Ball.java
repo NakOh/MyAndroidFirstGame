@@ -16,7 +16,6 @@ public class Ball {
     private int yMin = 1600;
     private int yMax;
 
-
     private float ballRadius = 17;
 
 
@@ -40,6 +39,14 @@ public class Ball {
     public void set(Canvas canvas){
         ballBounds.set(ballX - ballRadius, ballY - ballRadius, ballX + ballRadius, ballY + ballRadius);
         canvas.drawOval(ballBounds, paint);
+    }
+
+    public Paint getPaint() {
+        return paint;
+    }
+
+    public void setPaint(Paint paint) {
+        this.paint = paint;
     }
 
     public void update(){
