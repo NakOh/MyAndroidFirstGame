@@ -29,92 +29,21 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new GraphicsView(this));
-
+        setContentView(new MainView(this));
     }
 
-    static public class GraphicsView extends View {
+    @Override
+    protected void onPause(){
+        super.onPause();
+    }
 
-        private Bar bar;
-        private Ball ball;
-        private BoxBug boxBug;
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
 
-        public GraphicsView(Context context) {
-            super(context);
-            ball = new Ball(Color.GREEN);
-            bar = new Bar(Color.RED);
-            boxBug = new BoxBug(Color.RED);
-            this.setFocusableInTouchMode(true);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-
-            ball.set(canvas);
-            bar.set(canvas);
-            boxBug.set(canvas);
-
-            ball.update();
-            bar.update();
-            boxBug.update();
-
-            if((ball.getBallX()+ball.getBallRadius() >= bar.getxMin()) && (bar.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= bar.getyMin()+ bar.getHeight())){
-
-                ball.setBallSpeedX(-ball.getBallSpeedX());
-                if(ball.getBallSpeedY()<0){
-                    ball.setBallSpeedY(ball.getBallSpeedY() -1 );
-                    bar.changColor();
-                }else {
-                    ball.setBallSpeedY(ball.getBallSpeedY() + 1);
-                    bar.changColor();
-
-                }
-            }else if(ball.getBallX()-ball.getBallRadius() >= bar.getxMin()+bar.width){
-
-                if ((ball.getBallX()-ball.getBallRadius() <= bar.getxMin()+bar.width) && (bar.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= bar.getyMin()+ bar.getHeight())){
-                    ball.setBallSpeedX(-ball.getBallSpeedX());
-                    if(ball.getBallSpeedY()<0){
-                        ball.setBallSpeedY(ball.getBallSpeedY() -1 );
-                        bar.changColor();
-                    }else {
-                        ball.setBallSpeedY(ball.getBallSpeedY() + 1);
-                        bar.changColor();
-                    }
-                }
-
-            }
-
-            invalidate();
-        }
-
-
-        @Override
-        public void onSizeChanged(int w, int h, int oldW, int oldH) {
-            ball.setXMax(w - 1);
-            ball.setYMax(h - 1);
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-
-            float currentX = event.getX();
-            float currentY = event.getY();
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_MOVE:
-                    bar.setSpeedY(currentY);
-                    break;
-                case MotionEvent.ACTION_DOWN:
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-
-            }
-
-
-            return true;
-
-        }
-
-
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
     }
 }
