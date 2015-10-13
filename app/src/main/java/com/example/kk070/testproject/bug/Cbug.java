@@ -1,4 +1,4 @@
-package com.example.kk070.testproject;
+package com.example.kk070.testproject.bug;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,7 +7,9 @@ import android.graphics.RectF;
 /**
  * Created by kk070 on 2015-10-12.
  */
-public class Bug {
+public class Cbug implements Bugs {
+
+
     private int xMin = 0;
     private int xMax;
     private int yMin = 1600;
@@ -27,7 +29,7 @@ public class Bug {
     private RectF ballBounds;
     private Paint paint;
 
-    public Bug(int color){
+    public Cbug(int color){
         ballBounds = new RectF();
         paint = new Paint();
         paint.setColor(color);

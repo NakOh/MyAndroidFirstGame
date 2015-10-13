@@ -1,60 +1,60 @@
 package com.example.kk070.testproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import com.example.kk070.testproject.spray.Spray;
+
+import java.util.ArrayList;
 
 /**
  * Created by kk070 on 2015-10-12.
  */
 public class MainView extends View {
     private Spray spray;
-    private Ball ball;
+    private ArrayList<Bullet> bullets;
+    private Bullet[] bullet;
+    private com.example.kk070.testproject.ImageButton imageButton;
+    private  int bulletCount = 0;
 
     public MainView(Context context) {
         super(context);
-
-        ball = new Ball(Color.GREEN);
-        spray = new Spray(Color.GRAY);
-
+        spray = new Spray(context);
+        bullets = new ArrayList<Bullet>();
+        bullet = new Bullet[20];
+        for(int i = 0;  i < 20 ; i++) {
+            bullet[i] = new Bullet(context);
+        }
+        imageButton = new com.example.kk070.testproject.ImageButton(context);
+        this.setBackgroundResource(R.drawable.background);
         this.setFocusableInTouchMode(true);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        bullets.add(bullet[bulletCount]);
+        bullet[bulletCount].set(spray.getX(), spray.getY());
 
-        ball.set(canvas);
-        spray.set(canvas);
+        bulletCount++;
 
-        ball.update();
-        spray.update();
-
-        if((ball.getBallX()+ball.getBallRadius() >= spray.getxMin()) && (spray.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= spray.getyMin()+ spray.getHeight())){
-
-            ball.setBallSpeedX(-ball.getBallSpeedX());
-            if(ball.getBallSpeedY()<0){
-                ball.setBallSpeedY(ball.getBallSpeedY() - 1 );
-
-            }else {
-                ball.setBallSpeedY(ball.getBallSpeedY() + 1);
-
-            }
-        }else if(ball.getBallX()-ball.getBallRadius() >= spray.getxMin()+spray.getWidth()){
-
-            if ((ball.getBallX()-ball.getBallRadius() <= spray.getxMin()+spray.getWidth()) && (spray.getyMin() <= ball.getBallY()+ball.getBallRadius()) &&  (ball.getBallY()-ball.getBallRadius() <= spray.getyMin()+ spray.getHeight())){
-                ball.setBallSpeedX(-ball.getBallSpeedX());
-                if(ball.getBallSpeedY()<0){
-                    ball.setBallSpeedY(ball.getBallSpeedY() -1 );
-
-                }else {
-                    ball.setBallSpeedY(ball.getBallSpeedY() + 1);
-
-                }
-            }
-
+        if(bulletCount ==19){
+            bulletCount = 0;
         }
+
+        if(bullets.size() == 20){
+            bullets.remove(0);
+        }
+
+        for(Bullet bullet : bullets){
+            bullet.update(canvas);
+        }
+        spray.update(canvas);
+        imageButton.update(canvas);
 
         invalidate();
     }
@@ -62,18 +62,19 @@ public class MainView extends View {
 
     @Override
     public void onSizeChanged(int w, int h, int oldW, int oldH) {
-        ball.setXMax(w - 1);
-        ball.setYMax(h - 1);
+        spray.set(w, h);
+        for(int i = 0;  i < 20 ; i++) {
+            bullet[i].setCent(w,h);
+        }
+
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         float currentX = event.getX();
         float currentY = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                spray.setSpeedY(currentY);
                 break;
             case MotionEvent.ACTION_DOWN:
                 break;
