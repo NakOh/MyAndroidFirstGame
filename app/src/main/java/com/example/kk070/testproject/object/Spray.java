@@ -1,17 +1,12 @@
-package com.example.kk070.testproject.spray;
+package com.example.kk070.testproject.object;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
 
 import com.example.kk070.testproject.R;
-
-import java.util.Random;
 
 /**
  * Created by kk070 on 2015-10-12.
@@ -22,23 +17,23 @@ public class Spray{
     private int centX;
     private int centY;
     private int currentSelfAngle;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     private int direction;
+    private Integer[] ships = {R.drawable.ship_1,R.drawable.ship_2,R.drawable.ship_3,R.drawable.ship_4,R.drawable.ship_5,R.drawable.ship_6,R.drawable.ship_7 };
 
-
-    public Spray(Context context){
-        spray = BitmapFactory.decodeResource(context.getResources(), R.drawable.ship_1);
-        spray = Bitmap.createScaledBitmap(spray, 200, 200, true);
+    public Spray(Context context,int stage){
+        spray = BitmapFactory.decodeResource(context.getResources(), ships[stage]);
+        spray = Bitmap.createScaledBitmap(spray, 150, 150, true);
     }
     public void set(int w, int h){
         centX = w/2 ;
         centY = h/2 ;
     }
 
-    public void pointOnCircle(int angleInDegrees, int Radius){
-        x =(int) (Math.cos(Math.toRadians(angleInDegrees))*Radius) + centX;
-        y = (int) (Math.sin(Math.toRadians(angleInDegrees))*Radius) + centY;
+    private void pointOnCircle(int angleInDegrees, int Radius){
+        x = (float)(Math.cos(Math.toRadians(angleInDegrees))*Radius) + centX;
+        y =  (float)(Math.sin(Math.toRadians(angleInDegrees))*Radius) + centY;
     }
 
     public void update(Canvas canvas){
@@ -53,8 +48,8 @@ public class Spray{
 
     private void calculateAngle(){
         matrix = new Matrix();
-        int dx = centX - x-spray.getWidth()/2;
-        int dy = centY - y-spray.getHeight()/2;
+        float dx = centX - x-spray.getWidth()/2;
+        float dy = centY - y-spray.getHeight()/2;
         double rad= Math.atan2(dx, dy);
         double degree = -(rad*180)/Math.PI ;
         if(degree>0){
@@ -64,8 +59,9 @@ public class Spray{
         }
         matrix.setRotate((float) degree, spray.getWidth()/2, spray.getHeight()/2);
         matrix.postTranslate(x-spray.getWidth()/2, y-spray.getHeight()/2);
-      //  matrix.postRotate((float)degree);
     }
+
+
 
     public int getCentX() {
         return centX;
@@ -84,17 +80,26 @@ public class Spray{
     }
 
 
-    public int getX() {
+    public float getX() {
         return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public void setX(int x) {
         this.x = x;
     }
 
-    public int getY() {
-        return y;
-    }
 
     public void setY(int y) {
         this.y = y;

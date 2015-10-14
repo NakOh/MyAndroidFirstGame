@@ -1,7 +1,9 @@
 package com.example.kk070.testproject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -27,7 +29,7 @@ import android.widget.TextView;
 import java.util.regex.Pattern;
 
 public class MainActivity extends Activity {
-    private View view;
+    private MainView view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +38,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onPause(){
-        super.onPause();
-    }
+    protected void onPause(){ super.onPause();    }
 
     @Override
     protected void onResume(){
@@ -47,4 +47,29 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy(){ super.onDestroy();  }
+
+    public void dialogSimple(){
+        final Activity activity = this;
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage("게임을 다시 시작하시겠습니까?").setCancelable(false).setPositiveButton("네",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                view = new MainView(activity);
+                view.setBackgroundResource(R.drawable.background);
+                setContentView(view);
+                onResume();
+            }
+        }).setNegativeButton("프로그램 종료", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Action for 'NO' Button
+                dialog.cancel();
+                moveTaskToBack(true);
+                finish();
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
+        });
+        AlertDialog alert = alt_bld.create();
+        // Icon for AlertDialog
+        alert.show();
+        view.setCollision(true);
+    }
 }

@@ -1,70 +1,93 @@
 package com.example.kk070.testproject.bug;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+
+import com.example.kk070.testproject.R;
 
 /**
  * Created by kk070 on 2015-10-12.
  */
 public class NormalBug implements Bugs {
-    private int xMin = 0;
-    private int xMax;
-    private int yMin = 1600;
-    private int yMax;
-
-    private float ballRadius = 17;
-
-
-    private float ballX = ballRadius + 200;
-    private float ballY = ballRadius + 330;
+    private Bitmap normalBug;
+    private float x;
+    private float y;
+    private float speedX;
+    private float speedY;
 
 
-    private float ballSpeedX = 30;
-    private float ballSpeedY = 1;
-    private float previousX;
-    private float previousY;
-    private RectF ballBounds;
-    private Paint paint;
-
-    public NormalBug(int color){
-        ballBounds = new RectF();
-        paint = new Paint();
-        paint.setColor(color);
+    public NormalBug(Context context){
+        normalBug = BitmapFactory.decodeResource(context.getResources(), R.drawable.normalbug);
+        normalBug = Bitmap.createScaledBitmap(normalBug, 50, 50, true);
     }
 
-    public void set(Canvas canvas){
-        ballBounds.set(ballX - ballRadius, ballY - ballRadius, ballX + ballRadius, ballY + ballRadius);
-        canvas.drawOval(ballBounds, paint);
+    @Override
+    public void set(int x, int y, int w, int h){
+
+        this.x = x;
+        this.y = y;
+
+        speedX = (float)((w - x)/Math.sqrt(((w - x) * (w - x)) + ((h - y) *(h - y ))));
+        speedY = (float)((h - y)/Math.sqrt(((h - y) * (h - y)) + ((w - x) *(w - x ))));
+
+
     }
 
-    public Paint getPaint() {
-        return paint;
+    @Override
+    public void update(Canvas canvas){
+        algorithm();
+        canvas.drawBitmap(normalBug, x, y, null);
     }
 
-    public void setPaint(Paint paint) {
-        this.paint = paint;
+    @Override
+    public void algorithm() {
+        x += speedX;
+        y += speedY;
     }
 
-    public void update(){
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
+    @Override
+    public Bitmap getBug() {
+        return normalBug;
+    }
 
-        if (ballX + ballRadius > xMax) {
-            ballSpeedX = -ballSpeedX;
-            ballX = xMax - ballRadius;
-        } else if (ballX - ballRadius < xMin) {
-            ballSpeedX = -ballSpeedX;
-            ballX = xMin + ballRadius;
-        }
+    public void setNormalBug(Bitmap normalBug) {
+        this.normalBug = normalBug;
+    }
 
-        if (ballY + ballRadius > yMin) {
-            ballSpeedY = -ballSpeedY;
-            ballY = yMin - ballRadius;
-        } else if (ballY - ballRadius < yMax) {
-            ballSpeedY = -ballSpeedY;
-            ballY = yMax + ballRadius;
-        }
+    @Override
+    public float getX() {
+        return x;
+    }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+    @Override
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getSpeedX() {
+        return speedX;
+    }
+
+    public void setSpeedX(float speedX) {
+        this.speedX = speedX;
+    }
+
+    public float getSpeedY() {
+        return speedY;
+    }
+
+    public void setSpeedY(float speedY) {
+        this.speedY = speedY;
     }
 }

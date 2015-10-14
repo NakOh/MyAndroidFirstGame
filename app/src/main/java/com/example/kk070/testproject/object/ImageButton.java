@@ -1,9 +1,11 @@
-package com.example.kk070.testproject;
+package com.example.kk070.testproject.object;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+
+import com.example.kk070.testproject.R;
 
 /**
  * Created by kk070 on 2015-10-13.
