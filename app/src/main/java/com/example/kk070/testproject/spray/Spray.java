@@ -24,6 +24,8 @@ public class Spray{
     private int currentSelfAngle;
     private int x;
     private int y;
+    private int direction;
+
 
     public Spray(Context context){
         spray = BitmapFactory.decodeResource(context.getResources(), R.drawable.ship_1);
@@ -40,7 +42,11 @@ public class Spray{
     }
 
     public void update(Canvas canvas){
-        pointOnCircle(currentSelfAngle++, (int) (centX * 0.8));
+        if(direction==0) {
+            pointOnCircle(currentSelfAngle++, (int) (centX * 0.8));
+        }else{
+            pointOnCircle(currentSelfAngle--, (int)(centX * 0.8));
+        }
         calculateAngle();
         canvas.drawBitmap(spray, matrix, null);
     }
@@ -94,5 +100,35 @@ public class Spray{
         this.y = y;
     }
 
+    public Bitmap getSpray() {
+        return spray;
+    }
 
+    public void setSpray(Bitmap spray) {
+        this.spray = spray;
+    }
+
+    public Matrix getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(Matrix matrix) {
+        this.matrix = matrix;
+    }
+
+    public int getCurrentSelfAngle() {
+        return currentSelfAngle;
+    }
+
+    public void setCurrentSelfAngle(int currentSelfAngle) {
+        this.currentSelfAngle = currentSelfAngle;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
 }

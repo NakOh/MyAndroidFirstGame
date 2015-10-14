@@ -69,6 +69,7 @@ public class MainView extends View {
 
     }
 
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float currentX = event.getX();
@@ -77,6 +78,12 @@ public class MainView extends View {
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_DOWN:
+                if(imageButton.getLeftArrowX()<currentX && imageButton.getLeftArrowX()+200 > currentX && 1500<currentY && 1700>currentY){
+                    changeDirection(0);
+                }
+                if(imageButton.getRightArrowX()<currentX && imageButton.getRightArrowX()+200 > currentX && 1500<currentY && 1700>currentY){
+                    changeDirection(1);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 break;
@@ -84,5 +91,10 @@ public class MainView extends View {
         return true;
 
     }
+
+    private void changeDirection(int direction){
+           spray.setDirection(direction);
+    }
+
 
 }

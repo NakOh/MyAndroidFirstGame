@@ -11,6 +11,8 @@ import android.graphics.Canvas;
 public class ImageButton {
     private Bitmap leftArrow;
     private Bitmap rightArrow;
+    private int leftArrowX = 100;
+    private int rightArrowX = 800;
 
     public ImageButton(Context context){
         leftArrow = BitmapFactory.decodeResource(context.getResources(), R.drawable.left_arrow);
@@ -24,5 +26,35 @@ public class ImageButton {
         canvas.drawBitmap(rightArrow,800,1500,null);
     }
 
+    public Bitmap getLeftArrow() {
+        return leftArrow;
+    }
 
+    public void setLeftArrow(Bitmap leftArrow) {
+        this.leftArrow = leftArrow;
+    }
+
+    public Bitmap getRightArrow() {
+        return rightArrow;
+    }
+
+    public void setRightArrow(Bitmap rightArrow) {
+        this.rightArrow = rightArrow;
+    }
+
+    public int getLeftArrowX() {
+        return leftArrowX;
+    }
+
+    public void setLeftArrowX(int leftArrowX) {
+        this.leftArrowX = leftArrowX;
+    }
+
+    public int getRightArrowX() {
+        return rightArrowX;
+    }
+
+    public void setRightArrowX(int rightArrowX) {
+        this.rightArrowX = rightArrowX;
+    }
 }
